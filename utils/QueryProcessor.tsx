@@ -67,5 +67,21 @@ export default function QueryProcessor(query: string): string {
   }
 
 
+  if (query.includes("What is") && query.includes("plus") && query.includes("multiplied by")) {
+    const numbers = query.match(/\d+/g)?.map(Number);
+    if (numbers && numbers.length === 3) {
+        const [num1, num2, num3] = numbers;
+        return (num1 + (num2 * num3)).toString();
+    }
+  }
+
+  if (query.includes("What is") && query.includes("to the power of")) {
+    const numbers = query.match(/\d+/g)?.map(Number);
+    if (numbers && numbers.length === 2) {
+        const [base, exponent] = numbers;
+        return Math.pow(base, exponent).toString();
+    }
+  }
+
   return "";
 }
