@@ -17,82 +17,53 @@ export default function QueryProcessor(query: string): string {
     return "amkhulai-313";
   }
 
-  if (query.includes("Which of the following numbers is the largest:")) {
-      const numbers = query.match(/\d+/g)?.map(Number);
-      if (numbers) {
-          return Math.max(...numbers).toString();
+
+  const additionMatch = query.toLowerCase().match(/what is (\d+) plus (\d+)\?/);
+  if (additionMatch) {
+    const num1 = parseInt(additionMatch[1], 10);
+    const num2 = parseInt(additionMatch[2], 10);
+    return (num1 + num2).toString();
+  }
+
+  const largestMatch = query.toLowerCase().match(/which of the following numbers is the largest: (\d+), (\d+), (\d+)\?/);
+  if (largestMatch) {
+    const num1 = parseInt(largestMatch[1], 10);
+    const num2 = parseInt(largestMatch[2], 10);
+    const num3 = parseInt(largestMatch[3], 10);
+    const largest = Math.max(num1, num2, num3);
+    return largest.toString();
+  }
+
+  const multiplicationMatch = query.toLowerCase().match(/what is (\d+) multiplied by (\d+)\?/);
+  if (multiplicationMatch) {
+    const num1 = parseInt(multiplicationMatch[1], 10);
+    const num2 = parseInt(multiplicationMatch[2], 10);
+    return (num1 * num2).toString();
+  }
+
+  const squareCubeMatch = query.toLowerCase().match(/which of the following numbers is both a square and a cube: ([\d, ]+)\?/);
+  if (squareCubeMatch) {
+    const numbers = squareCubeMatch[1].split(',').map(num => parseInt(num.trim(), 10));
+    const result = numbers.filter(num => {
+      const sqrt = Math.sqrt(num);
+      const cbrt = Math.cbrt(num);
+      return Number.isInteger(sqrt) && Number.isInteger(cbrt);
+    });
+    return result.join(', ');
+  }
+
+  const primeMatch = query.toLowerCase().match(/which of the following numbers are primes: ([\d, ]+)\?/);
+  if (primeMatch) {
+    const numbers = primeMatch[1].split(',').map(num => parseInt(num.trim(), 10));
+    const isPrime = (num: number) => {
+      if (num <= 1) return false;
+      for (let i = 2; i <= Math.sqrt(num); i++) {
+        if (num % i === 0) return false;
       }
-  }
-
-  if (query.includes("What is") && query.includes("plus")) {
-      const [num1, num2] = query.match(/\d+/g)?.map(Number) || [];
-      if (num1 !== undefined && num2 !== undefined) {
-          return (num1 + num2).toString();
-      }
-  }
-
-  if (query.includes("Which of the following numbers is the largest: 33, 68, 12?")) {
-    return "68";
-  }
-
-  if (query.includes("Which of the following numbers is the largest: 63, 93, 65?")) {
-    return "93";
-  }
-
-  if (query.includes("Which of the following numbers is the largest: 36, 62, 9?")) {
-    return "62";
-  }
-
-  if (query.includes("What is 52 plus 7?")) {
-    return "59";
-  }
-
-
-  if (query.includes("Which of the following numbers is the largest: 90, 54, 10?")) {
-    return "90";
-  }
-
-
-  if (query.includes("Which of the following numbers is the largest: 2, 13, 10?")) {
-    return "13";
-  }
-
-  if (query.includes("Which of the following numbers is the largest: 56, 80, 40?")) {
-    return "80";
-  }
-
-
-  if (query.includes("Which of the following numbers is the largest: 22, 71, 1?")) {
-    return "71";
-  }
-
-  if (query.includes("Which of the following numbers is the largest: 96, 13, 60?")) {
-    return "96";
-  }
-
-
-  if (query.includes("What is 62 plus 98?")) {
-    return "160";
-  }
-
-  if (query.includes("Which of the following numbers is both a square and a cube:")) {
-    const numbers = query.match(/\d+/g)?.map(Number);
-    if (numbers) {
-        for (const num of numbers) {
-            const sqrt = Math.sqrt(num);
-            const cbrt = Math.cbrt(num);
-            if (Number.isInteger(sqrt) && Number.isInteger(cbrt)) {
-                return num.toString();
-            }
-        }
-    }
-  }
-
-  if (query.includes("What is") && query.includes("multiplied by")) {
-    const numbers = query.match(/\d+/g)?.map(Number);
-    if (numbers && numbers.length === 2) {
-        return (numbers[0] * numbers[1]).toString();
-    }
+      return true;
+    };
+    const result = numbers.filter(isPrime);
+    return result.join(', ');
   }
 
 
