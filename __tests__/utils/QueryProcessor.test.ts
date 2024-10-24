@@ -92,6 +92,19 @@ describe("QueryProcessor", () => {
     });
 
 
+    test('should return my added value #2', () => {
+        const query = "What is 62 plus 98?";
+        const response: string = QueryProcessor(query);
+        expect(response).toBe("160");
+    });
+
+    
+    test('should return square value', () => {
+        const query = "Which of the following numbers is both a square and a cube: 2968, 1686, 729, 2265, 3364, 1760, 1000?";
+        const response: string = QueryProcessor(query);
+        expect(response).toBe("729"); // or "1000"
+    });
+
 
 
 });
