@@ -39,5 +39,35 @@ describe("QueryProcessor", () => {
         expect(response).toBe("93");
     });
 
+    test('should return my largest number #2', () => {
+        const query = "Which of the following numbers is the largest: 36, 62, 9?";
+        const response: string = QueryProcessor(query);
+        expect(response).toBe("62");
+    });
+
+    test('should return my added value', () => {
+        const query = "What is 52 plus 7?";
+        const response: string = QueryProcessor(query);
+        expect(response).toBe("59");
+    });    
+
+
+    test('should return my largest number #3', () => {
+        const query = "Which of the following numbers is the largest: 33, 68, 12?";
+        const response: string = QueryProcessor(query);
+        expect(response).toBe("68");
+    });
+
+
+    test('should return my largest number #4', () => {
+        const query = "Which of the following numbers is the largest: 90, 54, 10?";
+        const response: string = QueryProcessor(query);
+        expect(response).toBe("90");
+    });
+
+
+
+
+
 
 });
