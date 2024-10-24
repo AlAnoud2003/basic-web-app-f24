@@ -107,4 +107,13 @@ describe("QueryProcessor", () => {
 
 
 
+    test('should return multipled', () => {
+        const query = "What is 11 multiplied by 62?";
+        const response: string = QueryProcessor(query);
+        expect(response).toBe("682");
+    });
+
+
+
+
 });
