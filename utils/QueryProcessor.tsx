@@ -83,5 +83,23 @@ export default function QueryProcessor(query: string): string {
     }
   }
 
+  if (query.includes("Which of the following is an anagram of")) {
+    const match = query.match(/an anagram of (\w+): (.+)\?/);
+    if (match) {
+        const targetWord = match[1];
+        const words = match[2].split(', ').map(word => word.trim());
+
+        const sortedTarget = targetWord.split('').sort().join('');
+        for (const word of words) {
+            if (word.split('').sort().join('') === sortedTarget) {
+                return word;
+            }
+        }
+    }
+}
+
+
+
+
   return "";
 }
