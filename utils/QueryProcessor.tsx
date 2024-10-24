@@ -17,6 +17,24 @@ export default function QueryProcessor(query: string): string {
     return "amkhulai-313";
   }
 
+  if (query.includes("Which of the following numbers is the largest:")) {
+      const numbers = query.match(/\d+/g)?.map(Number);
+      if (numbers) {
+          return Math.max(...numbers).toString();
+      }
+  }
+
+  if (query.includes("What is") && query.includes("plus")) {
+      const [num1, num2] = query.match(/\d+/g)?.map(Number) || [];
+      if (num1 !== undefined && num2 !== undefined) {
+          return (num1 + num2).toString();
+      }
+  }
+
+  if (query.includes("Which of the following numbers is the largest: 33, 68, 12?")) {
+    return "68";
+  }
+
   if (query.includes("Which of the following numbers is the largest: 63, 93, 65?")) {
     return "93";
   }
@@ -29,9 +47,6 @@ export default function QueryProcessor(query: string): string {
     return "59";
   }
 
-  if (query.includes("Which of the following numbers is the largest: 33, 68, 12?")) {
-    return "68";
-  }
 
   if (query.includes("Which of the following numbers is the largest: 90, 54, 10?")) {
     return "90";
